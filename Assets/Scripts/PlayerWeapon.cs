@@ -15,6 +15,7 @@ public class PlayerWeapon : MonoBehaviour
 
     [Header("Weapon Variables")]
     [SerializeField] private float damage;
+    [SerializeField] private float stunTime;
     [SerializeField] private float knockBack;
     [SerializeField] private float timeBeforeAttack;
     [SerializeField] private float timeBetweenAttacks;
@@ -56,7 +57,7 @@ public class PlayerWeapon : MonoBehaviour
 
         while (hitsLeft > 0) {
 
-            collisionInfo.gameObject.GetComponent<EnemyHealth>().handleHealthChange(damage);
+            collisionInfo.gameObject.GetComponent<EnemyHealth>().handleHealthChange(damage, stunTime);
             collisionInfo.gameObject.GetComponent<Rigidbody>().AddForce(playerObj.forward * knockBack, ForceMode.Force);
             hitsLeft -= 1;
             print("I Just Hit: " + collisionInfo.gameObject.tag);
