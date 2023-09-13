@@ -8,46 +8,49 @@ using TMPro;
 public class EnemyHealth : MonoBehaviour
 {
     [Header("References")]
+    [SerializeField] private CharacterStateManager myState;
+    [SerializeField] private Transform myObj;
+    [SerializeField] private EnemyRagdoll myRagdoll;
     [SerializeField] private Animator anim;
     [SerializeField] private Transform healthBar;
     [SerializeField] private UnityEngine.UI.Image healthImage;
     [SerializeField] private TMP_Text healthText;
     
     [Header("Health Variables")]
-    [SerializeField] private bool isHurt;
     [SerializeField] private float maxHealth;
     [SerializeField] private float currHealth;
 
-    public void handleHealthChange(float damage, float stunTime) {
+    void FixedUpdate() {
+        healthBar.transform.LookAt(Camera.main.transform.position);
+        healthBar.transform.position = new Vector3(myObj.position.x, myObj.position.y + 1.5f, myObj.position.z);
+    }
+
+    public void TakeDamage(float damage, float stunTime, bool willRagdoll) {
 
         currHealth -= damage;
         healthImage.fillAmount = currHealth / maxHealth;
-        if (currHealth < 0) {
-            healthText.text = "0";    
-        } else {
-            healthText.text = currHealth.ToString();            
-        }
 
-        StopCoroutine(Hurt(stunTime));
-        StartCoroutine(Hurt(stunTime));
+        if (currHealth < 0) healthText.text = "0";    
+        else healthText.text = currHealth.ToString();
 
-    }
+        StopCoroutine(BasicHurt(stunTime));
 
-    void FixedUpdate() {
+        if (willRagdoll) myRagdoll.HandleRagdoll(stunTime);
+        else StartCoroutine(BasicHurt(stunTime));
 
-        healthBar.transform.LookAt(Camera.main.transform.position);
+    }    
 
-    }
+    private IEnumerator BasicHurt(float stunTime) {
 
-    private IEnumerator Hurt(float stunTime) {
+        myState.AbleStateChange(CharacterStateManager.AbleState.Incapacitated);
+        myState.CurrentActionChange(CharacterStateManager.CurrentAction.Stunned);
 
-        anim.SetBool("isHurt", false);
-        isHurt = true;
-        anim.SetBool("isHurt", isHurt);
         yield return new WaitForSeconds(stunTime);
-        isHurt = false;
-        anim.SetBool("isHurt", isHurt);
+        
+        myState.AbleStateChange(CharacterStateManager.AbleState.Normal);
+        myState.CurrentActionChange(CharacterStateManager.CurrentAction.Idle);
 
     }
+
 
 }

@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
+
+    private enum WeaponState {
+        SwordShield,
+        Sword,
+    }
+
     [Header("Attack")]
     [SerializeField] private PlayerMovement pm;
     [SerializeField] private Animator anim;
@@ -12,6 +18,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private PlayerWeapon wep;
 
     [Header("Attack State")]
+    [SerializeField] private WeaponState weaponState = WeaponState.SwordShield;
     [SerializeField] private bool canAttack;
     [SerializeField] private bool startedAttack;
     [SerializeField] private bool isAttacking;

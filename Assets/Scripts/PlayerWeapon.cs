@@ -23,6 +23,12 @@ public class PlayerWeapon : MonoBehaviour
     [SerializeField] private float attackCooldown;
     [SerializeField] private int maxHits;
     [SerializeField] private int hitsLeft;
+    [SerializeField] private float maxHitsBeforeRagdoll;
+    [SerializeField] private float currHitsForRagdoll;
+    [SerializeField] private float timeSinceLastHit;
+
+    [Header("Enemy")]
+    [SerializeField] private GameObject enemy;
 
     public float getDamage() {
         return damage;
@@ -40,30 +46,74 @@ public class PlayerWeapon : MonoBehaviour
         hitsLeft = maxHits;
     }
 
+    private void FixedUpdate() {
+        if (timeSinceLastHit < attackCooldown) {
+            timeSinceLastHit += Time.deltaTime;
+        }
+    }
+
 
     void OnTriggerEnter(Collider collisionInfo) {
 
-        if (collisionInfo.gameObject.tag == "Enemy" && pAtk.getIsAttacking()) {
+        // If We Hit An Enemy
+        if (collisionInfo.gameObject.tag == "Enemy" && pAtk.getIsAttacking() && timeSinceLastHit >= attackCooldown) {
 
-            StartCoroutine(Hit(collisionInfo));
+            timeSinceLastHit = 0;
+
+            // If This *IS* Our Previously Hit Enemy
+            if (collisionInfo.gameObject.GetInstanceID() == enemy.GetInstanceID()) {
+
+                currHitsForRagdoll += 1;
+
+                // If We *HAVE* Reached The Ragdoll Hit Count
+                if (currHitsForRagdoll >= maxHitsBeforeRagdoll) {
+                    currHitsForRagdoll = 0;
+                    print("Will Ragdoll");
+                    StartCoroutine(Hit(collisionInfo, true));
+                
+                // If We *HAVE NOT* Reached The Ragdoll Hit Count
+                } else {
+                    StartCoroutine(Hit(collisionInfo, false));   
+                    print("Will NOT Ragdoll");
+                } 
+                
+            // If This *IS NOT* Our Previously Hit Enemy
+            } else {
+
+                enemy = collisionInfo.gameObject;
+                currHitsForRagdoll = 1;
+                print("Will NOT Ragdoll");
+                StartCoroutine(Hit(collisionInfo, false));
+
+            }
             
         }
         
     }
 
-    private IEnumerator Hit(Collider collisionInfo) {
+    private IEnumerator Hit(Collider collisionInfo, bool willRagdoll) {
+
+        GameObject enemy = collisionInfo.gameObject;
 
         yield return new WaitForSeconds(timeBeforeAttack);
 
-        while (hitsLeft > 0) {
+        while (hitsLeft > 1) {
 
-            collisionInfo.gameObject.GetComponent<EnemyHealth>().handleHealthChange(damage, stunTime);
-            collisionInfo.gameObject.GetComponent<Rigidbody>().AddForce(playerObj.forward * knockBack, ForceMode.Force);
+            enemy.GetComponent<EnemyHealth>().TakeDamage(damage, stunTime, false);
             hitsLeft -= 1;
-            print("I Just Hit: " + collisionInfo.gameObject.tag);
             yield return new WaitForSeconds(timeBetweenAttacks);
 
         }
+
+        if (willRagdoll) {
+            enemy.GetComponent<Rigidbody>().AddForce(playerObj.forward * knockBack * 2, ForceMode.Force);
+        } else {
+            enemy.GetComponent<Rigidbody>().AddForce(playerObj.forward * knockBack, ForceMode.Force);
+        }
+        
+        enemy.GetComponent<EnemyHealth>().TakeDamage(damage, stunTime, willRagdoll);
+
+        print("I Just Hit: " + enemy.tag);
 
     }
 
