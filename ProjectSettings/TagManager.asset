@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Ground
   - Enemy
+  - BreakableObject
+  - Interactable
+  - Wood
   layers:
   - Default
   - TransparentFX
