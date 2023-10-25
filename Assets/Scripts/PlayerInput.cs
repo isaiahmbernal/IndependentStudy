@@ -31,13 +31,17 @@ public class PlayerInput : MonoBehaviour
 
         // Set weapon to Sword
         if (Input.GetKeyDown(_wep1Key)
-            && _myState.GetCurrentAction() != CharacterStateManager.CurrentAction.Attacking) {
+            && _myState.GetCurrentAction() != CharacterStateManager.CurrentAction.Attacking
+            && (_myState.GetAbleState() == CharacterStateManager.AbleState.Normal
+                || _myState.GetAbleState() == CharacterStateManager.AbleState.Rooted)) {
                 _myAttack.SetWeaponState(CharacterAttackManager.WeaponState.Sword);
         }
 
         // Set weapon to Great Sword
         else if (Input.GetKeyDown(_wep2Key)
-            && _myState.GetCurrentAction() != CharacterStateManager.CurrentAction.Attacking) {
+            && _myState.GetCurrentAction() != CharacterStateManager.CurrentAction.Attacking
+            && (_myState.GetAbleState() == CharacterStateManager.AbleState.Normal
+                || _myState.GetAbleState() == CharacterStateManager.AbleState.Rooted)) {
                 _myAttack.SetWeaponState(CharacterAttackManager.WeaponState.GreatSword);
         }
 

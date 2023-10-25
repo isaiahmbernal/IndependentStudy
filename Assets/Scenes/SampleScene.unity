@@ -3036,6 +3036,10 @@ PrefabInstance:
       propertyPath: _greatSwordLABetweenTime
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 6250101229332969420, guid: e5039271f9faa4854915bfa782ad3d28, type: 3}
+      propertyPath: m_Pitch
+      value: 0.9
+      objectReference: {fileID: 0}
     - target: {fileID: 7686638165555666777, guid: e5039271f9faa4854915bfa782ad3d28, type: 3}
       propertyPath: _timeBetweenAttacks
       value: 0.5
