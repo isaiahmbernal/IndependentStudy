@@ -3020,6 +3020,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5898184017997795788, guid: e5039271f9faa4854915bfa782ad3d28, type: 3}
+      propertyPath: m_Pitch
+      value: 0.6
+      objectReference: {fileID: 0}
     - target: {fileID: 6199300946790171855, guid: e5039271f9faa4854915bfa782ad3d28, type: 3}
       propertyPath: _fistsLABetweenTime
       value: 0.5
@@ -3039,6 +3043,10 @@ PrefabInstance:
     - target: {fileID: 8166579784408132351, guid: e5039271f9faa4854915bfa782ad3d28, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8875295838764475791, guid: e5039271f9faa4854915bfa782ad3d28, type: 3}
+      propertyPath: m_Pitch
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

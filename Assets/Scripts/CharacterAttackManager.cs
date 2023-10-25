@@ -221,6 +221,8 @@ public class CharacterAttackManager : MonoBehaviour
 
         _currWeapon.ResetHits();
 
+        _currWeapon.PlaySound();
+
         _swordLACurrBetweenTime = 0;
         _greatSwordLACurrBetweenTime = 0;
         _fistsLACurrBetweenTime = 0;
@@ -240,9 +242,7 @@ public class CharacterAttackManager : MonoBehaviour
             _myState.SetCurrentAction(CharacterStateManager.CurrentAction.Idle);
         }
         // If we were NOT on the ground, continue falling
-        else {
-            _myState.SetCurrentAction(CharacterStateManager.CurrentAction.Falling);
-        }
+        else _myState.SetCurrentAction(CharacterStateManager.CurrentAction.Falling);
 
         // Reset the total times the weapon can hit something
         _currWeapon.ResetHits();

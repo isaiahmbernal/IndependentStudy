@@ -35,6 +35,9 @@ public class Weapon : MonoBehaviour
     [SerializeField] private float _currHitsForRagdoll;
     [SerializeField] private float _timeSinceLastHit;
     [SerializeField] private float _reflectTime;
+    private float _whooshPitch;
+    private float _hitWoodPitch;
+    private float _hitFleshPitch;
 
     [Header("Enemy")]
     [SerializeField] private GameObject _lastEnemy;
@@ -47,6 +50,10 @@ public class Weapon : MonoBehaviour
         _whoosh = transform.Find("Sound").Find("Woosh").GetComponent<AudioSource>();
         _hitFlesh = transform.Find("Sound").Find("HitFlesh").GetComponent<AudioSource>();
         _hitWood = transform.Find("Sound").Find("HitWood").GetComponent<AudioSource>();
+
+        _whooshPitch = _whoosh.pitch;
+        _hitWoodPitch = _hitWood.pitch;
+        _hitFleshPitch = _hitFlesh.pitch;
     }
 
     public void ResetHits() {
@@ -55,6 +62,7 @@ public class Weapon : MonoBehaviour
     }
 
     public void PlaySound() {
+        _whoosh.pitch = UnityEngine.Random.Range(_whooshPitch - .1f, _whooshPitch + .1f);
         _whoosh.PlayDelayed(.5f);
     }
 
@@ -131,6 +139,7 @@ public class Weapon : MonoBehaviour
                     case "Wood":
                         Debug.Log("I Hit Wood: " + children[i].gameObject.GetInstanceID());
                         _whoosh.Stop();
+                        _hitWood.pitch = UnityEngine.Random.Range(_hitWoodPitch - .1f, _hitWoodPitch + .1f);
                         _hitWood.Play();
                         break;
                 }
@@ -169,6 +178,7 @@ public class Weapon : MonoBehaviour
         // Stop the original weapon sound and
         // play the correct enemy hit sound
         _whoosh.Stop();
+        _hitFlesh.pitch = UnityEngine.Random.Range(_hitFleshPitch - .1f, _hitFleshPitch + .1f);
         _hitFlesh.PlayDelayed(.05f);
 
         // * NOTE *
