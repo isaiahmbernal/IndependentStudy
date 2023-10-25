@@ -1,8 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.XR;
 
 /// <summary>
 /// Contains methods for managing all ragdoll
@@ -15,25 +13,27 @@ public class Ragdoll : MonoBehaviour {
         public Quaternion Rotation { get; set; }
     }
     
-    [Header("References")]
-    [SerializeField] private CharacterStateManager myState;
-    [SerializeField] private Rigidbody[] ragdollRigidbodies;
-    [SerializeField] private Rigidbody myRb;
-    [SerializeField] private Animator anim;
-    [SerializeField] private GameObject myGameObject;
-    [SerializeField] private Transform myTransform;
-    [SerializeField] private Transform myHips;
-    [SerializeField] private NavMeshAgent myNavAgent;
+    [Header("Auto References")]
+    [SerializeField] private CharacterStateManager _myState;
+    [SerializeField] private NavMeshAgent _myNavAgent;
+    [SerializeField] private Rigidbody _rb;
+    [SerializeField] private Animator _anim;
+    [SerializeField] private Transform _myObj;
+    [SerializeField] private GameObject _myGameObj;
+    [SerializeField] private Transform _myHips;
+    [SerializeField] private Rigidbody[] _ragdollRigidbodies;
 
     [Header("Ragdoll Variables")]
-    [SerializeField] private float myStunTime;
-    [SerializeField] private float timeBeforeRagdoll;
-    [SerializeField] private float standUpTime;
-    [SerializeField] private string standUpAnimationName;
-    [SerializeField] private bool resettingBones;
-    [SerializeField] private float timeToResetBones;
-    [SerializeField] private float elapsedResetBonesTime;
-    [SerializeField] private Vector3 storedHipsPos;
+    [SerializeField] private float _myStunTime;
+    [SerializeField] private float _timeBeforeRagdoll;
+    [SerializeField] private float _standUpTime;
+    [SerializeField] private string _standUpAnimationName;
+    [SerializeField] private string _standUpClipName;
+
+    [Header("Do Not Modify")]
+    [SerializeField] private bool _resettingBones;
+    [SerializeField] private float _timeToResetBones;
+    [SerializeField] private float _elapsedResetBonesTime;
 
     [Header("All Bones")]
     [SerializeField] private Transform[] bones;
@@ -47,11 +47,19 @@ public class Ragdoll : MonoBehaviour {
 
     void Awake() {
 
+        _myState = GetComponent<CharacterStateManager>();
+        _myNavAgent = GetComponent<NavMeshAgent>();
+        _rb = GetComponent<Rigidbody>();
+        _myObj = transform.Find("MyObj");
+        _anim = _myObj.GetComponent<Animator>();
+        _myGameObj = _myObj.gameObject;
+        _myHips = _myObj.Find("mixamorig:Hips");
+
         // Find all rigidbodies in the heirarchy of the game object
-        ragdollRigidbodies = GetComponentsInChildren<Rigidbody>();
+        _ragdollRigidbodies = _myHips.GetComponentsInChildren<Rigidbody>();
 
         // Get all bones in the heirarchy of the bones
-        bones = myHips.GetComponentsInChildren<Transform>();
+        bones = _myHips.GetComponentsInChildren<Transform>();
 
         // Prepare the arrays to hold the bone positions of the
         // stand up animation and the end position of the ragdoll
@@ -64,7 +72,7 @@ public class Ragdoll : MonoBehaviour {
 
         // Set the position and rotation of all bones based
         // on the starting point of the stand up animation
-        PopulateAnimationStartBoneTransforms(standUpAnimationName, standUpBoneTransforms);
+        PopulateAnimationStartBoneTransforms();
 
         // Make sure ragdoll is disabled
         DisableRagdoll();
@@ -74,7 +82,7 @@ public class Ragdoll : MonoBehaviour {
     private void FixedUpdate() {
         // If we're supposed to be resetting the bones
         // state, run the ResetBones() method
-        if (resettingBones) {
+        if (_resettingBones) {
             ResetBones();
     
         }
@@ -117,53 +125,53 @@ public class Ragdoll : MonoBehaviour {
     /// to which we'll lerp to from the ragdoll position.
     /// 
     /// </summary>
-    /// <param name="standUpAnimationName"></param>
+    /// <param name="_standUpClipName"></param>
     /// <param name="boneTransforms"></param>
-    private void PopulateAnimationStartBoneTransforms(string standUpAnimationName, BoneTransform[] boneTransforms) {
+    private void PopulateAnimationStartBoneTransforms() {
 
-        Vector3 positionBeforeSampling = myGameObject.transform.position;
-        Quaternion rotationBeforeSampling = myGameObject.transform.rotation;
+        Vector3 positionBeforeSampling = _myObj.position;
+        Quaternion rotationBeforeSampling = _myObj.rotation;
 
-        foreach (AnimationClip clip in anim.runtimeAnimatorController.animationClips) {
-            if (clip.name == standUpAnimationName) {
-                clip.SampleAnimation(myGameObject, 0);
+        foreach (AnimationClip clip in _anim.runtimeAnimatorController.animationClips) {
+            if (clip.name == _standUpClipName) {
+                clip.SampleAnimation(_myGameObj, 0);
                 PopulateBoneTransforms(standUpBoneTransforms);
                 break;
             }
         }
         
-        myGameObject.transform.position = positionBeforeSampling;
-        myGameObject.transform.rotation = rotationBeforeSampling;
+        _myObj.position = positionBeforeSampling;
+        _myObj.rotation = rotationBeforeSampling;
 
     }
 
     // private void AlignRotationToHips()
     // {
-    //     Vector3 originalHipsPosition = myHips.position;
-    //     Quaternion originalHipsRotation = myHips.rotation;
+    //     Vector3 originalHipsPosition = _myHips.position;
+    //     Quaternion originalHipsRotation = _myHips.rotation;
 
-    //     Vector3 desiredDirection = myHips.up * -1;
+    //     Vector3 desiredDirection = _myHips.up * -1;
     //     desiredDirection.y = 0;
     //     desiredDirection.Normalize();
 
-    //     Quaternion fromToRotation = Quaternion.FromToRotation(myGameObject.transform.forward, desiredDirection);
-    //     myGameObject.transform.rotation *= fromToRotation;
+    //     Quaternion fromToRotation = Quaternion.FromToRotation(_myObj.forward, desiredDirection);
+    //     _myObj.rotation *= fromToRotation;
 
-    //     myHips.position = originalHipsPosition;
-    //     myHips.rotation = originalHipsRotation;
+    //     _myHips.position = originalHipsPosition;
+    //     _myHips.rotation = originalHipsRotation;
     // }
 
     // private void AlignPositionToHips()
     // {
-    //     Vector3 originalHipsPosition = myHips.position;
-    //     myGameObject.transform.position = myHips.position;
+    //     Vector3 originalHipsPosition = _myHips.position;
+    //     _myObj.position = _myHips.position;
 
     //     Vector3 positionOffset = standUpBoneTransforms[0].Position;
     //     positionOffset.y = 0;
-    //     positionOffset = myGameObject.transform.rotation * positionOffset;
-    //     myGameObject.transform.position -= positionOffset;
+    //     positionOffset = _myObj.rotation * positionOffset;
+    //     _myObj.position -= positionOffset;
 
-    //     myHips.position = originalHipsPosition;
+    //     _myHips.position = originalHipsPosition;
     // }
 
 
@@ -180,8 +188,8 @@ public class Ragdoll : MonoBehaviour {
     /// </summary>
     private void ResetBones() {
 
-        elapsedResetBonesTime += Time.deltaTime;
-        float elapsedPercentage = elapsedResetBonesTime / timeToResetBones;
+        _elapsedResetBonesTime += Time.deltaTime;
+        float elapsedPercentage = _elapsedResetBonesTime / _timeToResetBones;
 
         // For every bone
         for (int boneIndex = 0; boneIndex < bones.Length; boneIndex++) {
@@ -204,8 +212,8 @@ public class Ragdoll : MonoBehaviour {
 
         if (elapsedPercentage >= 1)
         {
-            resettingBones = false;
-            elapsedResetBonesTime = 0;
+            _resettingBones = false;
+            _elapsedResetBonesTime = 0;
         }
 
     }
@@ -219,13 +227,13 @@ public class Ragdoll : MonoBehaviour {
     /// </summary>
     private void DisableRagdoll() {
 
-        foreach (var rigidbody in ragdollRigidbodies) {
+        foreach (var rigidbody in _ragdollRigidbodies) {
             rigidbody.isKinematic = true;
         }
-        myRb.isKinematic = false;
+        _rb.isKinematic = false;
+        // _myObj.position = _myHips.position;
 
-        // myTransform.position = myHips.position;
-        anim.enabled = true;
+        _anim.enabled = true;
 
     }
 
@@ -238,12 +246,12 @@ public class Ragdoll : MonoBehaviour {
     /// </summary>
     private void EnableRagdoll() {
         
-        foreach (var rigidbody in ragdollRigidbodies) {
+        foreach (var rigidbody in _ragdollRigidbodies) {
             rigidbody.isKinematic = false;
         }
-        myRb.isKinematic = true;
+        _rb.isKinematic = true;
 
-        anim.enabled = false;
+        _anim.enabled = false;
 
     }
 
@@ -257,7 +265,7 @@ public class Ragdoll : MonoBehaviour {
     /// <param name="stunTime"></param>
     public void HandleRagdoll(float stunTime) {
 
-        myStunTime = stunTime;
+        _myStunTime = stunTime;
         StopCoroutine("RagdollSteps");
         StartCoroutine("RagdollSteps");
 
@@ -277,25 +285,25 @@ public class Ragdoll : MonoBehaviour {
     private IEnumerator RagdollSteps() {
 
         // If I'm dead, make me ragdoll forever
-        if (myState.GetAbleState() == CharacterStateManager.AbleState.Dead) {
+        if (_myState.GetAbleState() == CharacterStateManager.AbleState.Dead) {
 
-            yield return new WaitForSeconds(timeBeforeRagdoll);
-            myState.CurrentActionChange(CharacterStateManager.CurrentAction.Ragdoll);
+            yield return new WaitForSeconds(_timeBeforeRagdoll);
+            _myState.SetCurrentAction(CharacterStateManager.CurrentAction.Ragdoll);
             EnableRagdoll();
             yield return null;
 
         // If I'm *NOT* dead
         } else {
 
-            myState.AbleStateChange(CharacterStateManager.AbleState.Incapacitated);
-            myState.CurrentActionChange(CharacterStateManager.CurrentAction.Stunned);
+            _myState.SetAbleState(CharacterStateManager.AbleState.Incapacitated);
+            _myState.SetCurrentAction(CharacterStateManager.CurrentAction.Stunned);
 
-            yield return new WaitForSeconds(timeBeforeRagdoll);
+            yield return new WaitForSeconds(_timeBeforeRagdoll);
 
-            myState.CurrentActionChange(CharacterStateManager.CurrentAction.Ragdoll);
+            _myState.SetCurrentAction(CharacterStateManager.CurrentAction.Ragdoll);
             EnableRagdoll();
 
-            yield return new WaitForSeconds(myStunTime);
+            yield return new WaitForSeconds(_myStunTime);
             
             // AlignRotationToHips();
             // AlignPositionToHips();
@@ -303,24 +311,24 @@ public class Ragdoll : MonoBehaviour {
             PopulateBoneTransforms(ragdollBoneTransforms);
 
             // Start resetting bones within FixedUpdate()
-            resettingBones = true;
+            _resettingBones = true;
 
-            yield return new WaitForSeconds(timeToResetBones);
+            yield return new WaitForSeconds(_timeToResetBones);
 
             DisableRagdoll();
-            myState.CurrentActionChange(CharacterStateManager.CurrentAction.StandingUp);
-            anim.Play("Stand");
+            _myState.SetCurrentAction(CharacterStateManager.CurrentAction.StandingUp);
+            _anim.Play(_standUpAnimationName);
 
-            yield return new WaitForSeconds(standUpTime);
+            yield return new WaitForSeconds(_standUpTime);
 
             // * NOTE *
             // Within PlayerWeapon.cs in HitEnemy() we disabled the
             // NavMeshAgent to avoid bugs involving adding force, so
             // now we must re-enable it.
-            myNavAgent.enabled = true;
+            // _myNavAgent.enabled = true;
 
-            myState.AbleStateChange(CharacterStateManager.AbleState.Normal);
-            myState.CurrentActionChange(CharacterStateManager.CurrentAction.Idle);
+            _myState.SetAbleState(CharacterStateManager.AbleState.Normal);
+            _myState.SetCurrentAction(CharacterStateManager.CurrentAction.Idle);
 
         }
 

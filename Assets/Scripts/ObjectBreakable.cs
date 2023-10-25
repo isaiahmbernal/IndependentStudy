@@ -9,8 +9,8 @@ using UnityEngine;
 public class ObjectBreakable : MonoBehaviour
 {
 
-    [Header("References")]
-    [SerializeField] private Transform brokenPrefab;
+    [Header("Manual References")]
+    [SerializeField] private Transform _brokenPrefab;
     
     /// <summary>
     /// 
@@ -20,7 +20,7 @@ public class ObjectBreakable : MonoBehaviour
     /// 
     /// </summary>
     public void Break() {
-        Instantiate(brokenPrefab, transform.position, transform.rotation);
+        Instantiate(_brokenPrefab, transform.position, transform.rotation);
         Destroy(gameObject);
     }
 

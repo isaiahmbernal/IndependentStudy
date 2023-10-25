@@ -10,24 +10,31 @@ using UnityEngine;
 /// </summary>
 public class TauntRandom : MonoBehaviour
 {
-    [Header("References")]
-    [SerializeField] private CharacterStateManager myState;
+    [Header("Auto References")]
+    [SerializeField] private CharacterStateManager _myState;
 
     [Header("Taunt Variables")]
-    [SerializeField] private float tauntTime;
-    [SerializeField] private float timeBeforeTaunt;
-    [SerializeField] private float timeSinceLastMovement;
+    [SerializeField] private float _tauntTime;
+    [SerializeField] private float _timeBeforeTaunt;
+    [SerializeField] private float _timeSinceLastMovement;
 
     public void ResetTimeSinceLastMovement() {
-        timeSinceLastMovement = 0;
+        _timeSinceLastMovement = 0;
+    }
+
+    private void Awake() {
+        _myState = GetComponent<CharacterStateManager>();
     }
     
     private void FixedUpdate() {
 
-        if (timeSinceLastMovement > timeBeforeTaunt) {
-            StartCoroutine("PlayTaunt");
-        } else {
-            timeSinceLastMovement += Time.deltaTime;
+        if (_timeSinceLastMovement > _timeBeforeTaunt
+            && _myState.GetAbleState() != CharacterStateManager.AbleState.Dead) {
+                StartCoroutine("PlayTaunt");
+        }
+        
+        else if (_myState.GetAbleState() != CharacterStateManager.AbleState.Dead) {
+            _timeSinceLastMovement += Time.deltaTime;
         }
 
     }
@@ -52,11 +59,11 @@ public class TauntRandom : MonoBehaviour
     /// <returns></returns>
     private IEnumerator PlayTaunt() {
 
-        myState.CurrentActionChange(CharacterStateManager.CurrentAction.Taunt);
+        _myState.SetCurrentAction(CharacterStateManager.CurrentAction.Taunt);
         
-        yield return new WaitForSeconds(tauntTime);
+        yield return new WaitForSeconds(_tauntTime);
         
-        myState.CurrentActionChange(CharacterStateManager.CurrentAction.Idle);
+        _myState.SetCurrentAction(CharacterStateManager.CurrentAction.Idle);
 
     }
 

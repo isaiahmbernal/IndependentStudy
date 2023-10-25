@@ -10,21 +10,27 @@ using UnityEngine;
 /// </summary>
 public class CharacterGroundCheck : MonoBehaviour {
 
-    [Header("References")]
+    [Header("Auto References")]
     [SerializeField] private CharacterStateManager _myState;
     [SerializeField] private Rigidbody _rb;
 
-    [Header("Variables")]
+    [Header("Inherent Variables")]
     [SerializeField] private float _landTime;
+
+    private void Awake() {
+        _myState = GetComponent<CharacterStateManager>();
+        _rb = GetComponent<Rigidbody>();
+    }
 
     private void FixedUpdate() {
 
         // If I'm NOT Grounded and I'm falling
-        if (!_myState.GetIsGrounded() && _rb.velocity.y < -1f) {
+        if (!_myState.GetIsGrounded() && _rb.velocity.y < -1f
+            && _myState.GetCurrentAction() != CharacterStateManager.CurrentAction.Attacking) {
 
             // If I'm not already falling, set to falling
             if (_myState.GetCurrentAction() != CharacterStateManager.CurrentAction.Falling) {
-                _myState.CurrentActionChange(CharacterStateManager.CurrentAction.Falling);    
+                _myState.SetCurrentAction(CharacterStateManager.CurrentAction.Falling);    
             }
 
         }
@@ -47,13 +53,13 @@ public class CharacterGroundCheck : MonoBehaviour {
         Debug.Log(gameObject.name + " Touched Ground");
         
         _myState.SetIsGrounded(true);
-        _myState.AbleStateChange(CharacterStateManager.AbleState.Incapacitated);
-        _myState.CurrentActionChange(CharacterStateManager.CurrentAction.Landing);
+        _myState.SetAbleState(CharacterStateManager.AbleState.Incapacitated);
+        _myState.SetCurrentAction(CharacterStateManager.CurrentAction.Landing);
 
         yield return new WaitForSeconds(_landTime);
 
-        _myState.AbleStateChange(CharacterStateManager.AbleState.Normal);
-        _myState.CurrentActionChange(CharacterStateManager.CurrentAction.Idle);
+        _myState.SetAbleState(CharacterStateManager.AbleState.Normal);
+        _myState.SetCurrentAction(CharacterStateManager.CurrentAction.Idle);
 
     }
 
@@ -72,11 +78,16 @@ public class CharacterGroundCheck : MonoBehaviour {
     private void OnCollisionExit(Collision collisionInfo) {
 
         // If the character is no longer touching the ground
-        if (collisionInfo.gameObject.tag == "Ground"
-            && ( _myState.GetCurrentAction() == CharacterStateManager.CurrentAction.Falling
-            || _myState.GetCurrentAction() == CharacterStateManager.CurrentAction.Jumping)) {
+        // if (collisionInfo.gameObject.tag == "Ground"
+        //     && ( _myState.GetCurrentAction() == CharacterStateManager.CurrentAction.Falling
+        //     || _myState.GetCurrentAction() == CharacterStateManager.CurrentAction.Jumping)) {
+        //     _myState.SetIsGrounded(false);
+        //     // _myState.SetCurrentAction(CharacterStateManager.CurrentAction.Idle);
+        //     Debug.Log("NOT Grounded");
+        // }
+
+        if (collisionInfo.gameObject.tag == "Ground") {
             _myState.SetIsGrounded(false);
-            // _myState.CurrentActionChange(CharacterStateManager.CurrentAction.Idle);
             Debug.Log("NOT Grounded");
         }
         

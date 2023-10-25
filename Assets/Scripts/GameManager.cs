@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
 {
 
     [Header("Keybinds")]
-    [SerializeField] private KeyCode resetKey = KeyCode.Tab;
+    [SerializeField] private KeyCode _resetKey = KeyCode.Tab;
     
     private void Awake() {
 
@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     private void Update() {
 
         // If the reset key is pressed, reload the scene
-        if (Input.GetKeyDown(resetKey)) {
+        if (Input.GetKeyDown(_resetKey)) {
             // Debug.Log(SceneManager.GetActiveScene().ToString());
             SceneManager.LoadScene(0);
         }

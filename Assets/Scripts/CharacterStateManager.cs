@@ -31,14 +31,21 @@ public class CharacterStateManager : MonoBehaviour
         Landing,
         Attacking,
         Stunned,
+        Reflected,
         Ragdoll,
         Taunt
     }
 
-    [Header("References")]
-    [SerializeField] private Animator _anim;
-    // [SerializeField] private Ragdoll ragdoll;
+    // public enum WeaponState {
+    //     Sword,
+    //     GreatSword,
+    //     Fists
+    // }
+
+
+    [Header("Auto References")]
     [SerializeField] private TauntRandom _tauntRandom;
+    [SerializeField] private Animator _anim;
 
     [Header("Abilities")]
     [SerializeField] private AbleState _currentAbleState;
@@ -52,6 +59,11 @@ public class CharacterStateManager : MonoBehaviour
 
     [Header("Misc State")]
     [SerializeField] private bool _isGrounded;
+
+    private void Awake() {
+        _anim = transform.Find("MyObj").GetComponent<Animator>();
+        _tauntRandom = GetComponent<TauntRandom>();
+    }
 
     public AbleState GetAbleState() {
         return _currentAbleState;
@@ -104,7 +116,7 @@ public class CharacterStateManager : MonoBehaviour
     /// 
     /// </summary>
     /// <param name="newCurrentAction"></param>
-    public void AbleStateChange(AbleState newAbleState) {
+    public void SetAbleState(AbleState newAbleState) {
 
         _tauntRandom.ResetTimeSinceLastMovement();
 
@@ -150,7 +162,7 @@ public class CharacterStateManager : MonoBehaviour
     }
 
     // Used to reset animation state
-    public void SetAllAnimBoolsFalse() {
+    public void SetAllAnimActionsFalse() {
 
         _anim.SetBool("isIdle", false);
         _anim.SetBool("isStanding", false);
@@ -161,6 +173,7 @@ public class CharacterStateManager : MonoBehaviour
         _anim.SetBool("isLanding", false);
         _anim.SetBool("isAttacking", false);
         _anim.SetBool("isStunned", false);
+        _anim.SetBool("isReflected", false);
         _anim.SetBool("isTaunting", false);
 
     }
@@ -183,7 +196,9 @@ public class CharacterStateManager : MonoBehaviour
     /// 
     /// </summary>
     /// <param name="newCurrentAction"></param>
-    public void CurrentActionChange(CurrentAction newCurrentAction) {
+    public void SetCurrentAction(CurrentAction newCurrentAction) {
+
+        if (_currentAction == newCurrentAction) return;
 
         _tauntRandom.ResetTimeSinceLastMovement();
 
@@ -199,82 +214,89 @@ public class CharacterStateManager : MonoBehaviour
                     Debug.Log(gameObject.name + " CANCELED action: newCurrentAction = " + newCurrentAction);
                     return;
 
-                }
+            }
         }
 
         switch (newCurrentAction) {
 
             case CurrentAction.Idle:
                 _currentAction = CurrentAction.Idle;
-                SetAllAnimBoolsFalse();
+                SetAllAnimActionsFalse();
                 _anim.SetBool("isIdle", true);
                 break;
 
             case CurrentAction.StandingUp:
                 _currentAction = CurrentAction.StandingUp;
-                SetAllAnimBoolsFalse();
+                SetAllAnimActionsFalse();
                 _tauntRandom.StopTaunt();
                 _anim.SetBool("isStanding", true);
                 break;
 
             case CurrentAction.Walking:
                 _currentAction = CurrentAction.Walking;
-                SetAllAnimBoolsFalse();
+                SetAllAnimActionsFalse();
                 _tauntRandom.StopTaunt();
                 _anim.SetBool("isWalking", true);
                 break;
 
             case CurrentAction.Running:
                 _currentAction = CurrentAction.Running;
-                SetAllAnimBoolsFalse();
+                SetAllAnimActionsFalse();
                 _tauntRandom.StopTaunt();
                 _anim.SetBool("isRunning", true);
                 break;
 
             case CurrentAction.Jumping:
                 _currentAction = CurrentAction.Jumping;
-                SetAllAnimBoolsFalse();
+                SetAllAnimActionsFalse();
                 _tauntRandom.StopTaunt();
                 _anim.SetBool("isJumping", true);
                 break;
 
             case CurrentAction.Falling:
                 _currentAction = CurrentAction.Falling;
-                SetAllAnimBoolsFalse();
+                SetAllAnimActionsFalse();
                 _tauntRandom.StopTaunt();
                 _anim.SetBool("isFalling", true);
                 break;
 
             case CurrentAction.Landing:
                 _currentAction = CurrentAction.Landing;
-                SetAllAnimBoolsFalse();
+                SetAllAnimActionsFalse();
                 _tauntRandom.StopTaunt();
                 _anim.SetBool("isLanding", true);
                 break;
 
             case CurrentAction.Attacking:
                 _currentAction = CurrentAction.Attacking;
-                SetAllAnimBoolsFalse();
+                SetAllAnimActionsFalse();
                 _tauntRandom.StopTaunt();
                 _anim.SetBool("isAttacking", true);
                 break;
 
             case CurrentAction.Stunned:
                 _currentAction = CurrentAction.Stunned;
-                SetAllAnimBoolsFalse();
+                SetAllAnimActionsFalse();
                 _tauntRandom.StopTaunt();
                 _anim.SetBool("isStunned", true);
+                break;
+            
+            case CurrentAction.Reflected:
+                _currentAction = CurrentAction.Reflected;
+                SetAllAnimActionsFalse();
+                _tauntRandom.StopTaunt();
+                _anim.SetBool("isReflected", true);
                 break;
 
             case CurrentAction.Ragdoll:
                 _currentAction = CurrentAction.Ragdoll;
-                SetAllAnimBoolsFalse();
+                SetAllAnimActionsFalse();
                 _tauntRandom.StopTaunt();
                 break;
 
             case CurrentAction.Taunt:
                 _currentAction = CurrentAction.Taunt;
-                SetAllAnimBoolsFalse();
+                SetAllAnimActionsFalse();
                 _anim.SetBool("isTaunting", true);
                 break;
 

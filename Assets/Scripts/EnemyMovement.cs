@@ -8,17 +8,28 @@ using UnityEngine.AI;
 /// </summary>
 public class EnemyMovement : MonoBehaviour
 {
-    [Header("References")]
-    [SerializeField] private CharacterStateManager myState;
-    [SerializeField] private Transform myObjTransform;
-    [SerializeField] private Transform playerTransform;
-    [SerializeField] private NavMeshAgent myNavAgent;
+    [Header("Auto References")]
+    [SerializeField] private CharacterStateManager _myState;
+    [SerializeField] private NavMeshAgent _myNavAgent;
+    [SerializeField] private Rigidbody _rb;
+    [SerializeField] private Transform _myObjTransform;
+    [SerializeField] private Transform _playerTransform;
+
+    [Header("Inherent Variables")]
+    [SerializeField] private float _timeBetweenPlayerChecks;
 
     [Header("Movement Variables")]
-    [SerializeField] private float myRadius;
-    [SerializeField] private float sightRange;
-    [SerializeField] private float timeBetweenPlayerChecks;
-    [SerializeField] private bool lookAtPlayer;
+    [SerializeField] private float _myRadius;
+    [SerializeField] private float _sightRange;
+    [SerializeField] private bool _lookAtPlayer;
+
+    private void Awake() {
+        _myState = GetComponent<CharacterStateManager>();
+        _myNavAgent = GetComponent<NavMeshAgent>();
+        _rb = GetComponent<Rigidbody>();
+        _myObjTransform = transform.Find("MyObj");
+        _playerTransform = GameObject.Find("Player").GetComponent<Transform>();
+    }
 
     private void Start() {
 
@@ -30,7 +41,8 @@ public class EnemyMovement : MonoBehaviour
     private void Update() {
 
         // Making sure game object doesn't float away
-        myObjTransform.localPosition = Vector3.Lerp(myObjTransform.localPosition, new Vector3(0, 0, 0), Time.deltaTime);
+        _myObjTransform.localPosition = Vector3.Lerp(_myObjTransform.localPosition, new Vector3(0, 0, 0), Time.deltaTime);
+        // _myNavAgent.velocity = _rb.velocity;
 
     }
 
@@ -38,8 +50,8 @@ public class EnemyMovement : MonoBehaviour
     {
 
         // Point the character model at the player
-        if (lookAtPlayer) {
-            myObjTransform.LookAt(new Vector3(playerTransform.position.x, myObjTransform.position.y, playerTransform.position.z));
+        if (_lookAtPlayer) {
+            _myObjTransform.LookAt(new Vector3(_playerTransform.position.x, _myObjTransform.position.y, _playerTransform.position.z));
         }
 
     }
@@ -50,7 +62,7 @@ public class EnemyMovement : MonoBehaviour
     /// or not to look at the player, walk towards them, or to
     /// stop moving all together.
     /// 
-    /// Runs at set intervals based on timeBetweenPlayerChecks
+    /// Runs at set intervals based on _timeBetweenPlayerChecks
     /// until the character is dead
     /// 
     /// </summary>
@@ -58,67 +70,80 @@ public class EnemyMovement : MonoBehaviour
     private IEnumerator PlayerCheck() {
 
         // Do this while we're not dead
-        while (myState.GetAbleState() != CharacterStateManager.AbleState.Dead) {
+        while (_myState.GetAbleState() != CharacterStateManager.AbleState.Dead) {
 
             // Get the distance between us and the player
-            float dist = Vector3.Distance(playerTransform.position, transform.position);
+            float dist = Vector3.Distance(_playerTransform.position, transform.position);
 
             // If we're within sight range of the player
             // we want to look at the player
-            if (dist < sightRange
-                    && (myState.GetAbleState() == CharacterStateManager.AbleState.Normal
-                        || myState.GetAbleState() == CharacterStateManager.AbleState.Rooted)
-                    && (myState.GetCurrentAction() == CharacterStateManager.CurrentAction.Idle
-                        || myState.GetCurrentAction() == CharacterStateManager.CurrentAction.Walking
-                        || myState.GetCurrentAction() == CharacterStateManager.CurrentAction.Running))
+            if (dist < _sightRange
+                    && (_myState.GetAbleState() == CharacterStateManager.AbleState.Normal
+                        || _myState.GetAbleState() == CharacterStateManager.AbleState.Rooted)
+                    && (_myState.GetCurrentAction() == CharacterStateManager.CurrentAction.Idle
+                        || _myState.GetCurrentAction() == CharacterStateManager.CurrentAction.Walking
+                        || _myState.GetCurrentAction() == CharacterStateManager.CurrentAction.Running))
             {
-                lookAtPlayer = true;
+                _lookAtPlayer = true;
             } else {
-                lookAtPlayer = false;  
+                _lookAtPlayer = false;  
             } 
             
             // If we're within sight range of the player
             // and we need to move towards the player
-            if (dist <= sightRange && dist > myRadius
-                && myState.GetAbleState() == CharacterStateManager.AbleState.Normal
-                && (myState.GetCurrentAction() == CharacterStateManager.CurrentAction.Idle
-                    || myState.GetCurrentAction() == CharacterStateManager.CurrentAction.Walking
-                    || myState.GetCurrentAction() == CharacterStateManager.CurrentAction.Running)) 
+            if (dist <= _sightRange && dist > _myRadius
+                && _myState.GetAbleState() == CharacterStateManager.AbleState.Normal
+                && (_myState.GetCurrentAction() == CharacterStateManager.CurrentAction.Idle
+                    || _myState.GetCurrentAction() == CharacterStateManager.CurrentAction.Walking
+                    || _myState.GetCurrentAction() == CharacterStateManager.CurrentAction.Running)) 
             {
-                if (myState.GetCurrentAction() != CharacterStateManager.CurrentAction.Running) {
+                if (_myState.GetCurrentAction() != CharacterStateManager.CurrentAction.Running) {
 
-                    myState.CurrentActionChange(CharacterStateManager.CurrentAction.Running);
+                    _myState.SetCurrentAction(CharacterStateManager.CurrentAction.Running);
 
                 }
 
                 // Move towards the player
-                myNavAgent.SetDestination(playerTransform.position);
+                _myNavAgent.SetDestination(_playerTransform.position);
 
             } 
 
             // If we're at the the player
-            if (dist <= myRadius
-                && (myState.GetAbleState() == CharacterStateManager.AbleState.Normal
-                    || myState.GetAbleState() == CharacterStateManager.AbleState.Rooted)) {
+            if (dist <= _myRadius) {
 
                 // If we were walking or running, set our action to idle
-                if (myState.GetCurrentAction() == CharacterStateManager.CurrentAction.Walking
-                    || myState.GetCurrentAction() == CharacterStateManager.CurrentAction.Running) {
+                if (_myState.GetCurrentAction() == CharacterStateManager.CurrentAction.Walking
+                    || _myState.GetCurrentAction() == CharacterStateManager.CurrentAction.Running) {
 
-                        myState.CurrentActionChange(CharacterStateManager.CurrentAction.Idle);
+                        _myState.SetCurrentAction(CharacterStateManager.CurrentAction.Idle);
 
                 }
 
                 // Stop moving
-                myNavAgent.SetDestination(transform.position);
+                _myNavAgent.SetDestination(transform.position);
+
+                // 
+
+                // && (_myState.GetAbleState() == CharacterStateManager.AbleState.Normal
+                //     || _myState.GetAbleState() == CharacterStateManager.AbleState.Rooted))
+
+                // // If we were walking or running, set our action to idle
+                // if (_myState.GetCurrentAction() == CharacterStateManager.CurrentAction.Walking
+                //     || _myState.GetCurrentAction() == CharacterStateManager.CurrentAction.Running) {
+
+                //         _myState.SetCurrentAction(CharacterStateManager.CurrentAction.Idle);
+
+                // }
+
+                
 
             }
             
-            yield return new WaitForSeconds(timeBetweenPlayerChecks);
+            yield return new WaitForSeconds(_timeBetweenPlayerChecks);
 
         }
 
-        lookAtPlayer = false;
+        _lookAtPlayer = false;
 
     }
 

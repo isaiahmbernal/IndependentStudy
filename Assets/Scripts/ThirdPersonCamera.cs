@@ -12,15 +12,15 @@ using UnityEngine;
 /// </summary>
 public class ThirdPersonCamera : MonoBehaviour
 {
-    [Header("References")]
-    [SerializeField] private Animator _anim;
-    [SerializeField] private Transform _orientation;
+    [Header("Auto References")]
+    [SerializeField] private CharacterStateManager _myState;
     [SerializeField] private Transform _player;
     [SerializeField] private Transform _playerObj;
+    [SerializeField] private Animator _anim;
+    [SerializeField] private Transform _orientation;
     [SerializeField] private Transform _combatLookAt;
     [SerializeField] private GameObject _basicCam;
     [SerializeField] private GameObject _combatCam;
-    [SerializeField] private CharacterStateManager _myState;
 
     [Header("Variables")]
     [SerializeField] private float _rotationSpeed;
@@ -38,14 +38,25 @@ public class ThirdPersonCamera : MonoBehaviour
         return _orientation;
     }
 
-    void Start() {
+    private void Awake() {
+        _player = GameObject.Find("Player").GetComponent<Transform>();
+        _myState = _player.GetComponent<CharacterStateManager>();
+        _playerObj = _player.Find("MyObj");
+        _anim = _playerObj.GetComponent<Animator>();
+        _orientation = _player.Find("Orientation");
+        _combatLookAt = _orientation.Find("CombatLookAt");
+        _basicCam = GameObject.Find("ThirdPersonCamera");
+        _combatCam = GameObject.Find("CombatCamera");
+    }
+
+    private void Start() {
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
     }
 
-    void Update() {
+    private void Update() {
 
         // Rotate orientation
         Vector3 viewDir = _player.position - new Vector3(transform.position.x, _player.position.y, transform.position.z);
