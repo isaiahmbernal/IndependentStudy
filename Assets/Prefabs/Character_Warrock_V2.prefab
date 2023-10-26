@@ -352,6 +352,7 @@ GameObject:
   - component: {fileID: 3692991015717644907}
   - component: {fileID: 44558188503518263}
   - component: {fileID: 574841711976350107}
+  - component: {fileID: 5616222275746473008}
   - component: {fileID: 4533533061448092754}
   - component: {fileID: 8020222484488694000}
   - component: {fileID: 2542477109081342354}
@@ -492,6 +493,42 @@ MonoBehaviour:
   _maxHealth: 100
   _currHealth: 100
   _myStunTime: 0
+--- !u!114 &5616222275746473008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5133766983603295168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b431ccad30bc401f8a23cf8a5e3baad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _myState: {fileID: 0}
+  _anim: {fileID: 0}
+  _tauntRandom: {fileID: 0}
+  _currWeapon: {fileID: 0}
+  _sword: {fileID: 0}
+  _greatSword: {fileID: 0}
+  _fists: {fileID: 0}
+  _weaponState: 0
+  _currMaxLAStages: 0
+  _swordLAStages: 0
+  _swordLABetweenTime: 0
+  _swordLACurrBetweenTime: 0
+  _swordLA1Time: 0
+  _swordLA2Time: 0
+  _greatSwordLAStages: 0
+  _greatSwordLABetweenTime: 0
+  _greatSwordLACurrBetweenTime: 0
+  _greatSwordLA1Time: 0
+  _greatSwordLA2Time: 0
+  _fistsLAStages: 0
+  _fistsLABetweenTime: 0
+  _fistsLACurrBetweenTime: 0
+  _fistsLA1Time: 0
+  _fistsLA2Time: 0
 --- !u!114 &4533533061448092754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -555,7 +592,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _myState: {fileID: 0}
+  _myAttack: {fileID: 0}
   _tauntTime: 6
+  _swordTime: 0
+  _greatSwordTime: 0
+  _fistsTime: 0
   _timeBeforeTaunt: 10
   _timeSinceLastMovement: 0
 --- !u!1 &6682926940373688960

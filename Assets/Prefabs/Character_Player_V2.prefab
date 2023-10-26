@@ -394,11 +394,11 @@ MonoBehaviour:
   _swordLACurrBetweenTime: 0
   _swordLA1Time: 1.5
   _swordLA2Time: 1.5
-  _greatSwordLAStages: 1
-  _greatSwordLABetweenTime: 0.5
+  _greatSwordLAStages: 2
+  _greatSwordLABetweenTime: 1
   _greatSwordLACurrBetweenTime: 0
-  _greatSwordLA1Time: 2
-  _greatSwordLA2Time: 2
+  _greatSwordLA1Time: 1.5
+  _greatSwordLA2Time: 1
   _fistsLAStages: 1
   _fistsLABetweenTime: 0.5
   _fistsLACurrBetweenTime: 0
@@ -436,7 +436,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _myState: {fileID: 0}
+  _myAttack: {fileID: 0}
   _tauntTime: 7
+  _swordTime: 0
+  _greatSwordTime: 0
+  _fistsTime: 0
   _timeBeforeTaunt: 10
   _timeSinceLastMovement: 0
 --- !u!1001 &641093818239508601
