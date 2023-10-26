@@ -20,9 +20,11 @@ public class Weapon : MonoBehaviour
     [SerializeField] private CharacterAttackManager _myAttack;
     [SerializeField] private Animator _anim;
     [SerializeField] private Transform _charObj;
+    [SerializeField] private AudioSource _unsheathe;
     [SerializeField] private AudioSource _whoosh;
-    [SerializeField] private AudioSource _hitWood;
     [SerializeField] private AudioSource _hitFlesh;
+    [SerializeField] private AudioSource _hitWood;
+    [SerializeField] private AudioSource _hitStone;
 
     [Header("Weapon Variables")]
     [SerializeField] private string _myName;
@@ -33,10 +35,12 @@ public class Weapon : MonoBehaviour
     [SerializeField] private int _hitsLeft;
     [SerializeField] private float _maxHitsBeforeRagdoll;
     [SerializeField] private float _currHitsForRagdoll;
-    [SerializeField] private float _timeSinceLastHit;
+    // [SerializeField] private float _timeSinceLastHit;
     [SerializeField] private float _reflectTime;
+    private float _unsheathePitch;
     private float _whooshPitch;
     private float _hitWoodPitch;
+    private float _hitStonePitch;
     private float _hitFleshPitch;
 
     [Header("Enemy")]
@@ -47,23 +51,32 @@ public class Weapon : MonoBehaviour
         _myAttack = transform.root.GetComponent<CharacterAttackManager>();
         _charObj = transform.root.Find("MyObj");
         _anim = _charObj.GetComponent<Animator>();
+        _unsheathe = transform.Find("Sound").Find("Unsheathe").GetComponent<AudioSource>();
         _whoosh = transform.Find("Sound").Find("Woosh").GetComponent<AudioSource>();
         _hitFlesh = transform.Find("Sound").Find("HitFlesh").GetComponent<AudioSource>();
         _hitWood = transform.Find("Sound").Find("HitWood").GetComponent<AudioSource>();
+        _hitStone = transform.Find("Sound").Find("HitStone").GetComponent<AudioSource>();
 
+        _unsheathePitch = _unsheathe.pitch;
         _whooshPitch = _whoosh.pitch;
-        _hitWoodPitch = _hitWood.pitch;
         _hitFleshPitch = _hitFlesh.pitch;
+        _hitWoodPitch = _hitWood.pitch;
+        _hitStonePitch = _hitStone.pitch;
     }
 
     public void ResetHits() {
         _hitsLeft = _maxHits;
-        Debug.Log(gameObject.name + " Hits Left: " + _hitsLeft);
+        // Debug.Log(gameObject.name + " Hits Left: " + _hitsLeft);
     }
 
-    public void PlaySound() {
+    public void PlayWhoosh() {
         _whoosh.pitch = UnityEngine.Random.Range(_whooshPitch - .1f, _whooshPitch + .1f);
         _whoosh.PlayDelayed(.5f);
+    }
+
+    public void PlayUnsheathe() {
+        _unsheathe.pitch = UnityEngine.Random.Range(_unsheathePitch - .1f, _unsheathePitch + .1f);
+        _unsheathe.PlayDelayed(.1f);
     }
 
     void OnTriggerEnter(Collider collisionInfo) {
@@ -116,7 +129,7 @@ public class Weapon : MonoBehaviour
         // Decrement the remaining hits (or interactions)
         // the weapon has left during the current attack sequence
         _hitsLeft -= 1;
-        _timeSinceLastHit = 0;
+        // _timeSinceLastHit = 0;
 
         // Add force to the object
         collisionInfo.gameObject.GetComponent<Rigidbody>().AddForce(_charObj.forward * _knockBack * 2, ForceMode.Force);
@@ -141,6 +154,12 @@ public class Weapon : MonoBehaviour
                         _whoosh.Stop();
                         _hitWood.pitch = UnityEngine.Random.Range(_hitWoodPitch - .1f, _hitWoodPitch + .1f);
                         _hitWood.Play();
+                        break;
+                    case "Stone":
+                        Debug.Log("I Hit Stone: " + children[i].gameObject.GetInstanceID());
+                        _whoosh.Stop();
+                        _hitStone.pitch = UnityEngine.Random.Range(_hitStonePitch - .1f, _hitStonePitch + .1f);
+                        _hitStone.Play();
                         break;
                 }
 
@@ -173,7 +192,7 @@ public class Weapon : MonoBehaviour
         // Decrement the remaining hits (or interactions)
         // the weapon has left during the current attack sequence
         _hitsLeft -= 1;
-        _timeSinceLastHit = 0;
+        // _timeSinceLastHit = 0;
 
         // Stop the original weapon sound and
         // play the correct enemy hit sound

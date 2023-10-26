@@ -104,6 +104,7 @@ public class CharacterAttackManager : MonoBehaviour
         if (_weaponState == newWeaponState) return;
 
         _tauntRandom.ResetTimeSinceLastMovement();
+        _tauntRandom.StopTaunt();
 
         switch (newWeaponState) {
 
@@ -113,7 +114,6 @@ public class CharacterAttackManager : MonoBehaviour
                 _currWeapon = _sword;
                 _currMaxLAStages = _swordLAStages;
                 SetAllAnimWeaponsFalse();
-                _tauntRandom.StopTaunt();
                 _anim.SetBool("sword", true);
                 break;
 
@@ -123,7 +123,6 @@ public class CharacterAttackManager : MonoBehaviour
                 _currWeapon = _greatSword;
                 _currMaxLAStages = _greatSwordLAStages;
                 SetAllAnimWeaponsFalse();
-                _tauntRandom.StopTaunt();
                 _anim.SetBool("greatSword", true);
                 break;
 
@@ -133,11 +132,12 @@ public class CharacterAttackManager : MonoBehaviour
                 _currWeapon = _fists;
                 _currMaxLAStages = _fistsLAStages;
                 SetAllAnimWeaponsFalse();
-                _tauntRandom.StopTaunt();
                 _anim.SetBool("fists", true);
                 break;       
 
-        }        
+        }     
+
+        _currWeapon.PlayUnsheathe();   
 
     }
 
@@ -150,21 +150,21 @@ public class CharacterAttackManager : MonoBehaviour
             switch (_weaponState) {
                 case WeaponState.Sword:
                     if (_swordLACurrBetweenTime >= _swordLABetweenTime) {
-                        Debug.Log("START SWORD LIGHT ATTACK: START COROUTINE");
+                        // Debug.Log("START SWORD LIGHT ATTACK: START COROUTINE");
                         StopCoroutine("AttackLight");
                         StartCoroutine("AttackLight");    
                     }
                     break;
                 case WeaponState.GreatSword:
                     if (_greatSwordLACurrBetweenTime >= _greatSwordLABetweenTime) {
-                        Debug.Log("START GREAT SWORD LIGHT ATTACK: START COROUTINE");
+                        // Debug.Log("START GREAT SWORD LIGHT ATTACK: START COROUTINE");
                         StopCoroutine("AttackLight");
                         StartCoroutine("AttackLight");    
                     }
                     break;
                 case WeaponState.Fists:
                     if (_fistsLACurrBetweenTime >= _fistsLABetweenTime) {
-                        Debug.Log("START FISTS LIGHT ATTACK: START COROUTINE");
+                        // Debug.Log("START FISTS LIGHT ATTACK: START COROUTINE");
                         StopCoroutine("AttackLight");
                         StartCoroutine("AttackLight");    
                     }
@@ -221,13 +221,13 @@ public class CharacterAttackManager : MonoBehaviour
 
         _currWeapon.ResetHits();
 
-        _currWeapon.PlaySound();
+        _currWeapon.PlayWhoosh();
 
         _swordLACurrBetweenTime = 0;
         _greatSwordLACurrBetweenTime = 0;
         _fistsLACurrBetweenTime = 0;
 
-        Debug.Log("START LIGHT ATTACK: DO COROUTINE");
+        // Debug.Log("START LIGHT ATTACK: DO COROUTINE");
 
         _anim.SetInteger("lightAttackStage", _anim.GetInteger("lightAttackStage") + 1);
 
@@ -248,7 +248,7 @@ public class CharacterAttackManager : MonoBehaviour
         _currWeapon.ResetHits();
         _anim.SetInteger("lightAttackStage", 0);
 
-        Debug.Log("START LIGHT ATTACK: FINISH COROUTINE");
+        // Debug.Log("START LIGHT ATTACK: FINISH COROUTINE");
 
     }
 

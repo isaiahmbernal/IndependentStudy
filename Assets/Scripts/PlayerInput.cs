@@ -25,7 +25,7 @@ public class PlayerInput : MonoBehaviour
     private void AttackInput() {
 
         if (Input.GetKeyDown(_attackKey) && _myState.GetCanAttack()) {
-            Debug.Log("START LIGHT ATTACK: INPUT");
+            Debug.Log("INPUT: Light Attack");
             _myAttack.StartLightAttack();
         }
 
@@ -34,7 +34,8 @@ public class PlayerInput : MonoBehaviour
             && _myState.GetCurrentAction() != CharacterStateManager.CurrentAction.Attacking
             && (_myState.GetAbleState() == CharacterStateManager.AbleState.Normal
                 || _myState.GetAbleState() == CharacterStateManager.AbleState.Rooted)) {
-                _myAttack.SetWeaponState(CharacterAttackManager.WeaponState.Sword);
+                    Debug.Log("INPUT: Switch to Sword");
+                    _myAttack.SetWeaponState(CharacterAttackManager.WeaponState.Sword);
         }
 
         // Set weapon to Great Sword
@@ -42,7 +43,8 @@ public class PlayerInput : MonoBehaviour
             && _myState.GetCurrentAction() != CharacterStateManager.CurrentAction.Attacking
             && (_myState.GetAbleState() == CharacterStateManager.AbleState.Normal
                 || _myState.GetAbleState() == CharacterStateManager.AbleState.Rooted)) {
-                _myAttack.SetWeaponState(CharacterAttackManager.WeaponState.GreatSword);
+                    Debug.Log("INPUT: Switch to Great Sword");
+                    _myAttack.SetWeaponState(CharacterAttackManager.WeaponState.GreatSword);
         }
 
     }

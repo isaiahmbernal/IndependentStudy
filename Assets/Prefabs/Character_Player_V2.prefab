@@ -390,12 +390,18 @@ MonoBehaviour:
   _weaponState: 0
   _currMaxLAStages: 2
   _swordLAStages: 2
+  _swordLABetweenTime: 0.6
+  _swordLACurrBetweenTime: 0
   _swordLA1Time: 1.5
   _swordLA2Time: 1.5
   _greatSwordLAStages: 1
+  _greatSwordLABetweenTime: 0.5
+  _greatSwordLACurrBetweenTime: 0
   _greatSwordLA1Time: 2
   _greatSwordLA2Time: 2
   _fistsLAStages: 1
+  _fistsLABetweenTime: 0.5
+  _fistsLACurrBetweenTime: 0
   _fistsLA1Time: 2
   _fistsLA2Time: 2
 --- !u!114 &327073693066803724

@@ -9,6 +9,7 @@ TagManager:
   - BreakableObject
   - Interactable
   - Wood
+  - Stone
   layers:
   - Default
   - TransparentFX
