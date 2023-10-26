@@ -25,6 +25,9 @@ public class Weapon : MonoBehaviour
     [SerializeField] private AudioSource _hitFlesh;
     [SerializeField] private AudioSource _hitWood;
     [SerializeField] private AudioSource _hitStone;
+    [SerializeField] private Transform _VFXHitCharacter;
+    [SerializeField] private Transform _VFXHitWood;
+    [SerializeField] private Transform _VFXHitStone;
 
     [Header("Weapon Variables")]
     [SerializeField] private string _myName;
@@ -56,6 +59,10 @@ public class Weapon : MonoBehaviour
         _hitFlesh = transform.Find("Sound").Find("HitFlesh").GetComponent<AudioSource>();
         _hitWood = transform.Find("Sound").Find("HitWood").GetComponent<AudioSource>();
         _hitStone = transform.Find("Sound").Find("HitStone").GetComponent<AudioSource>();
+
+        _VFXHitCharacter = transform.Find("VFX").Find("HitCharacter");
+        _VFXHitWood = transform.Find("VFX").Find("HitWood");
+        _VFXHitStone = transform.Find("VFX").Find("HitStone");
 
         _unsheathePitch = _unsheathe.pitch;
         _whooshPitch = _whoosh.pitch;
@@ -154,12 +161,18 @@ public class Weapon : MonoBehaviour
                         _whoosh.Stop();
                         _hitWood.pitch = UnityEngine.Random.Range(_hitWoodPitch - .1f, _hitWoodPitch + .1f);
                         _hitWood.Play();
+                        Vector3 collisionPoint = collisionInfo.ClosestPoint(transform.position);
+                        Transform vfx = Instantiate(_VFXHitWood, collisionPoint, Quaternion.identity);
+                        vfx.gameObject.SetActive(true);
                         break;
                     case "Stone":
                         Debug.Log("I Hit Stone: " + children[i].gameObject.GetInstanceID());
                         _whoosh.Stop();
                         _hitStone.pitch = UnityEngine.Random.Range(_hitStonePitch - .1f, _hitStonePitch + .1f);
                         _hitStone.Play();
+                        collisionPoint = collisionInfo.ClosestPoint(transform.position);
+                        vfx = Instantiate(_VFXHitStone, collisionPoint, Quaternion.identity);
+                        vfx.gameObject.SetActive(true);
                         break;
                 }
 
@@ -199,6 +212,10 @@ public class Weapon : MonoBehaviour
         _whoosh.Stop();
         _hitFlesh.pitch = UnityEngine.Random.Range(_hitFleshPitch - .1f, _hitFleshPitch + .1f);
         _hitFlesh.PlayDelayed(.05f);
+
+        Vector3 collisionPoint = collisionInfo.ClosestPoint(transform.position);
+        Transform vfx = Instantiate(_VFXHitCharacter, collisionPoint, Quaternion.identity);
+        vfx.gameObject.SetActive(true);
 
         // * NOTE *
         // The NavMeshAgent of the enemy MUST BE DISABLED to prevent
