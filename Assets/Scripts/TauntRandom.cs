@@ -12,18 +12,23 @@ public class TauntRandom : MonoBehaviour
 {
     [Header("Auto References")]
     [SerializeField] private CharacterStateManager _myState;
+    [SerializeField] private CharacterAttackManager _myAttack;
 
     [Header("Taunt Variables")]
     [SerializeField] private float _tauntTime;
+    [SerializeField] private float _swordTime;
+    [SerializeField] private float _greatSwordTime;
+    [SerializeField] private float _fistsTime;
     [SerializeField] private float _timeBeforeTaunt;
     [SerializeField] private float _timeSinceLastMovement;
 
-    public void ResetTimeSinceLastMovement() {
-        _timeSinceLastMovement = 0;
-    }
-
     private void Awake() {
         _myState = GetComponent<CharacterStateManager>();
+        _myAttack = GetComponent<CharacterAttackManager>();
+    }
+
+    public void ResetTimeSinceLastMovement() {
+        _timeSinceLastMovement = 0;
     }
     
     private void FixedUpdate() {
@@ -50,6 +55,22 @@ public class TauntRandom : MonoBehaviour
         StopCoroutine("PlayTaunt");
     }
 
+    private float GetTauntTime() {
+        float tauntTime = _tauntTime;
+        switch (_myAttack.GetWeaponState()) {
+            case CharacterAttackManager.WeaponState.Sword:
+                tauntTime = _swordTime;
+                break;
+            case CharacterAttackManager.WeaponState.GreatSword:
+                tauntTime = _greatSwordTime;
+                break;
+            case CharacterAttackManager.WeaponState.Fists:
+                tauntTime = _fistsTime;
+                break;
+        }
+        return tauntTime;
+    }
+
     /// <summary>
     /// 
     /// Simply plays sets the taunt action and
@@ -61,7 +82,7 @@ public class TauntRandom : MonoBehaviour
 
         _myState.SetCurrentAction(CharacterStateManager.CurrentAction.Taunt);
         
-        yield return new WaitForSeconds(_tauntTime);
+        yield return new WaitForSeconds(GetTauntTime());
         
         _myState.SetCurrentAction(CharacterStateManager.CurrentAction.Idle);
 

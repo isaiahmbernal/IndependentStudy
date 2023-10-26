@@ -103,6 +103,16 @@ public class CharacterAttackManager : MonoBehaviour
 
         if (_weaponState == newWeaponState) return;
 
+        if ((_myState.GetAbleState() != CharacterStateManager.AbleState.Normal
+                && _myState.GetAbleState() != CharacterStateManager.AbleState.Rooted)
+            || (_myState.GetCurrentAction() != CharacterStateManager.CurrentAction.Idle
+                && _myState.GetCurrentAction() != CharacterStateManager.CurrentAction.Walking
+                && _myState.GetCurrentAction() != CharacterStateManager.CurrentAction.Running
+                && _myState.GetCurrentAction() != CharacterStateManager.CurrentAction.Jumping
+                && _myState.GetCurrentAction() != CharacterStateManager.CurrentAction.Falling)) {
+                    return;
+                }
+
         _tauntRandom.ResetTimeSinceLastMovement();
         _tauntRandom.StopTaunt();
 

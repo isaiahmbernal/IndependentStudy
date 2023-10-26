@@ -30,21 +30,15 @@ public class PlayerInput : MonoBehaviour
         }
 
         // Set weapon to Sword
-        if (Input.GetKeyDown(_wep1Key)
-            && _myState.GetCurrentAction() != CharacterStateManager.CurrentAction.Attacking
-            && (_myState.GetAbleState() == CharacterStateManager.AbleState.Normal
-                || _myState.GetAbleState() == CharacterStateManager.AbleState.Rooted)) {
-                    Debug.Log("INPUT: Switch to Sword");
-                    _myAttack.SetWeaponState(CharacterAttackManager.WeaponState.Sword);
+        if (Input.GetKeyDown(_wep1Key)) {
+            Debug.Log("INPUT: Switch to Sword");
+            _myAttack.SetWeaponState(CharacterAttackManager.WeaponState.Sword);
         }
 
         // Set weapon to Great Sword
-        else if (Input.GetKeyDown(_wep2Key)
-            && _myState.GetCurrentAction() != CharacterStateManager.CurrentAction.Attacking
-            && (_myState.GetAbleState() == CharacterStateManager.AbleState.Normal
-                || _myState.GetAbleState() == CharacterStateManager.AbleState.Rooted)) {
-                    Debug.Log("INPUT: Switch to Great Sword");
-                    _myAttack.SetWeaponState(CharacterAttackManager.WeaponState.GreatSword);
+        else if (Input.GetKeyDown(_wep2Key)) {
+            Debug.Log("INPUT: Switch to Great Sword");
+            _myAttack.SetWeaponState(CharacterAttackManager.WeaponState.GreatSword);
         }
 
     }

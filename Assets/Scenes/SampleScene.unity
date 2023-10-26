@@ -1372,7 +1372,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1375614524}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.1342014, y: 0.000000006244708, z: -0.0000000034350238, w: 0.9909541}
+  m_LocalRotation: {x: 0.1342014, y: -0.00000003639683, z: 0.00000002002079, w: 0.9909541}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2980,6 +2980,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2542477109081342354, guid: 45fc087fd1c0346d58aa43b996231fb8, type: 3}
+      propertyPath: _fistsTime
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2542477109081342354, guid: 45fc087fd1c0346d58aa43b996231fb8, type: 3}
+      propertyPath: _swordTime
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2542477109081342354, guid: 45fc087fd1c0346d58aa43b996231fb8, type: 3}
+      propertyPath: _greatSwordTime
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4764696376962574996, guid: 45fc087fd1c0346d58aa43b996231fb8, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.36
@@ -3031,7 +3043,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5133766983603295168, guid: 45fc087fd1c0346d58aa43b996231fb8, type: 3}
+      insertIndex: 6
+      addedObject: {fileID: 9008088495916663857}
   m_SourcePrefab: {fileID: 100100000, guid: 45fc087fd1c0346d58aa43b996231fb8, type: 3}
 --- !u!1001 &8703241888368894099
 PrefabInstance:
@@ -3125,6 +3140,18 @@ PrefabInstance:
       propertyPath: _timeBetweenAttacks
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 7942441804757959689, guid: e5039271f9faa4854915bfa782ad3d28, type: 3}
+      propertyPath: _fistsTime
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7942441804757959689, guid: e5039271f9faa4854915bfa782ad3d28, type: 3}
+      propertyPath: _swordTime
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7942441804757959689, guid: e5039271f9faa4854915bfa782ad3d28, type: 3}
+      propertyPath: _greatSwordTime
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8166579784408132351, guid: e5039271f9faa4854915bfa782ad3d28, type: 3}
       propertyPath: m_Name
       value: Player
@@ -3151,6 +3178,47 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7114851910713361305, guid: e5039271f9faa4854915bfa782ad3d28, type: 3}
   m_PrefabInstance: {fileID: 8703241888368894099}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &9008088495916663856 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5133766983603295168, guid: 45fc087fd1c0346d58aa43b996231fb8, type: 3}
+  m_PrefabInstance: {fileID: 8508343408301303628}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9008088495916663857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9008088495916663856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b431ccad30bc401f8a23cf8a5e3baad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _myState: {fileID: 0}
+  _anim: {fileID: 0}
+  _tauntRandom: {fileID: 0}
+  _currWeapon: {fileID: 0}
+  _sword: {fileID: 0}
+  _greatSword: {fileID: 0}
+  _fists: {fileID: 0}
+  _weaponState: 0
+  _currMaxLAStages: 0
+  _swordLAStages: 0
+  _swordLABetweenTime: 0
+  _swordLACurrBetweenTime: 0
+  _swordLA1Time: 0
+  _swordLA2Time: 0
+  _greatSwordLAStages: 0
+  _greatSwordLABetweenTime: 0
+  _greatSwordLACurrBetweenTime: 0
+  _greatSwordLA1Time: 0
+  _greatSwordLA2Time: 0
+  _fistsLAStages: 0
+  _fistsLABetweenTime: 0
+  _fistsLACurrBetweenTime: 0
+  _fistsLA1Time: 0
+  _fistsLA2Time: 0
 --- !u!114 &9090778795409310244 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1974631126970891770, guid: e5039271f9faa4854915bfa782ad3d28, type: 3}
