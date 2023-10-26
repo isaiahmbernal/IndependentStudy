@@ -97,11 +97,9 @@ public class EnemyMovement : MonoBehaviour
                     || _myState.GetCurrentAction() == CharacterStateManager.CurrentAction.Walking
                     || _myState.GetCurrentAction() == CharacterStateManager.CurrentAction.Running)) 
             {
-                if (_myState.GetCurrentAction() != CharacterStateManager.CurrentAction.Running) {
-
+                // if (_myState.GetCurrentAction() != CharacterStateManager.CurrentAction.Running) {
                     _myState.SetCurrentAction(CharacterStateManager.CurrentAction.Running);
-
-                }
+                // }
 
                 // Move towards the player
                 _myNavAgent.SetDestination(_playerTransform.position);

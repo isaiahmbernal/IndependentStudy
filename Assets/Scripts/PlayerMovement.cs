@@ -105,17 +105,17 @@ public class PlayerMovement : MonoBehaviour
                 // If the player is holding down the run key,
                 // set action to run if it's not set already
                 if (Input.GetKey(_runKey)) {
-                    if (_myState.GetCurrentAction() != CharacterStateManager.CurrentAction.Running) {
+                    // if (_myState.GetCurrentAction() != CharacterStateManager.CurrentAction.Running) {
                         _myState.SetCurrentAction(CharacterStateManager.CurrentAction.Running);
-                    }
+                    // }
                 }
 
                 // If the player is NOT holding down the run key,
                 // set action to walking if it's not set already
                 else {
-                    if (_myState.GetCurrentAction() != CharacterStateManager.CurrentAction.Walking) {
+                    // if (_myState.GetCurrentAction() != CharacterStateManager.CurrentAction.Walking) {
                         _myState.SetCurrentAction(CharacterStateManager.CurrentAction.Walking);
-                    }
+                    // }
                 }
 
             // If the player's not falling (and not pressing movement keys)
