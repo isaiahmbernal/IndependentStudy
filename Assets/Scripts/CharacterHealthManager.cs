@@ -51,7 +51,7 @@ public class CharacterHealthManager : MonoBehaviour
         // through the BasicHurt coroutine, end it
         // so we can start over again
         StopCoroutine("BasicHurt");
-        Debug.Log(gameObject.name + ": Stop Basic Hurt");
+        // Debug.Log(gameObject.name + ": Stop Basic Hurt");
         // StopAllCoroutines();
 
 
@@ -74,7 +74,7 @@ public class CharacterHealthManager : MonoBehaviour
         }
         
         else {
-            Debug.Log(gameObject.name + ": Do Basic Hurt");
+            // Debug.Log(gameObject.name + ": Do Basic Hurt");
             StartCoroutine("BasicHurt");
         }
 
@@ -93,7 +93,7 @@ public class CharacterHealthManager : MonoBehaviour
     /// <returns></returns>
     private IEnumerator BasicHurt() {
 
-        Debug.Log(gameObject.name + ": Started Basic Hurt");
+        // Debug.Log(gameObject.name + ": Started Basic Hurt");
 
         _myState.SetAbleState(CharacterStateManager.AbleState.Incapacitated);
         _myState.SetCurrentAction(CharacterStateManager.CurrentAction.Stunned);
@@ -111,7 +111,7 @@ public class CharacterHealthManager : MonoBehaviour
         _myState.SetAbleState(CharacterStateManager.AbleState.Normal);
         _myState.SetCurrentAction(CharacterStateManager.CurrentAction.Idle);
 
-        Debug.Log(gameObject.name + ": Finished Basic Hurt");
+        // Debug.Log(gameObject.name + ": Finished Basic Hurt");
 
     }
 

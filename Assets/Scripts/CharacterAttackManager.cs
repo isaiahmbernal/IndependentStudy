@@ -66,6 +66,10 @@ public class CharacterAttackManager : MonoBehaviour
         }
     }
 
+    public Weapon GetCurrentWeapon() {
+        return _currWeapon;
+    }
+
     private void DisableAllWeapons() {
         _sword.gameObject.SetActive(false);
         _greatSword.gameObject.SetActive(false);

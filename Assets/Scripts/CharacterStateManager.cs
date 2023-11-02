@@ -44,6 +44,7 @@ public class CharacterStateManager : MonoBehaviour
 
 
     [Header("Auto References")]
+    [SerializeField] private CharacterWeaponColliderManager _myWeaponCollider;
     [SerializeField] private TauntRandom _tauntRandom;
     [SerializeField] private Animator _anim;
 
@@ -61,6 +62,7 @@ public class CharacterStateManager : MonoBehaviour
     [SerializeField] private bool _isGrounded;
 
     private void Awake() {
+        _myWeaponCollider = transform.Find("MyObj").GetComponent<CharacterWeaponColliderManager>();
         _anim = transform.Find("MyObj").GetComponent<Animator>();
         _tauntRandom = GetComponent<TauntRandom>();
     }
@@ -157,7 +159,7 @@ public class CharacterStateManager : MonoBehaviour
 
         }
 
-        Debug.Log(gameObject.name + " able state changes to " + _currentAbleState);
+        // Debug.Log(gameObject.name + " able state changes to " + _currentAbleState);
 
     }
 
@@ -199,6 +201,8 @@ public class CharacterStateManager : MonoBehaviour
     public void SetCurrentAction(CurrentAction newCurrentAction) {
 
         if (_currentAction == newCurrentAction) return;
+
+        _myWeaponCollider.DisableWeaponCollider();
 
         _tauntRandom.ResetTimeSinceLastMovement();
 
@@ -302,7 +306,7 @@ public class CharacterStateManager : MonoBehaviour
 
         }
 
-        Debug.Log(gameObject.name + " current action changes to " + _currentAction);
+        // Debug.Log(gameObject.name + " current action changes to " + _currentAction);
 
     }
 

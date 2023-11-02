@@ -359,6 +359,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4c5514291e9c42d194d04df861f2537, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _myWeaponCollider: {fileID: 0}
   _tauntRandom: {fileID: 0}
   _anim: {fileID: 0}
   _currentAbleState: 0
@@ -706,8 +707,29 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1106052443080165721, guid: b6888eb4f15e14c52b646016348d8706, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2407094007398879871}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1886368111504509888, guid: b6888eb4f15e14c52b646016348d8706, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1583248511253126794}
   m_SourcePrefab: {fileID: 100100000, guid: b6888eb4f15e14c52b646016348d8706, type: 3}
+--- !u!1 &2606893247080272403 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1886368111504509888, guid: b6888eb4f15e14c52b646016348d8706, type: 3}
+  m_PrefabInstance: {fileID: 4467626171916114387}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1583248511253126794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2606893247080272403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: deeec8a3b78cf4b33bf8ebd8c8ee4b9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _myAttack: {fileID: 0}
 --- !u!4 &3415517647329413289 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1253805411793473914, guid: b6888eb4f15e14c52b646016348d8706, type: 3}
@@ -769,6 +791,10 @@ PrefabInstance:
     - target: {fileID: 5174472420963278098, guid: 8e1c2d5512d264b8bbfd0e392d1f5c24, type: 3}
       propertyPath: m_Name
       value: Sword
+      objectReference: {fileID: 0}
+    - target: {fileID: 5174472420963278098, guid: 8e1c2d5512d264b8bbfd0e392d1f5c24, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

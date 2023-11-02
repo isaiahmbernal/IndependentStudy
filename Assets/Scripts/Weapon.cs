@@ -18,6 +18,9 @@ public class Weapon : MonoBehaviour
     [Header("Auto References")]
     [SerializeField] private CharacterStateManager _myState;
     [SerializeField] private CharacterAttackManager _myAttack;
+    [SerializeField] private Renderer _myRenderer;
+    [SerializeField] private Collider _collider;
+    [SerializeField] private Transform _colliderSim;
     [SerializeField] private Animator _anim;
     [SerializeField] private Transform _charObj;
     [SerializeField] private AudioSource _unsheathe;
@@ -30,6 +33,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] private Transform _VFXHitStone;
 
     [Header("Weapon Variables")]
+    [SerializeField] private bool _showColliders;
     [SerializeField] private string _myName;
     [SerializeField] private float _damage;
     [SerializeField] private float _stunTime;
@@ -52,6 +56,9 @@ public class Weapon : MonoBehaviour
      private void Awake() {
         _myState = transform.root.GetComponent<CharacterStateManager>();
         _myAttack = transform.root.GetComponent<CharacterAttackManager>();
+        _myRenderer = GetComponent<Renderer>();
+        _collider = GetComponent<BoxCollider>();
+        _colliderSim = transform.Find("Collider_Sim");
         _charObj = transform.root.Find("MyObj");
         _anim = _charObj.GetComponent<Animator>();
         _unsheathe = transform.Find("Sound").Find("Unsheathe").GetComponent<AudioSource>();
@@ -59,7 +66,6 @@ public class Weapon : MonoBehaviour
         _hitFlesh = transform.Find("Sound").Find("HitFlesh").GetComponent<AudioSource>();
         _hitWood = transform.Find("Sound").Find("HitWood").GetComponent<AudioSource>();
         _hitStone = transform.Find("Sound").Find("HitStone").GetComponent<AudioSource>();
-
         _VFXHitCharacter = transform.Find("VFX").Find("HitCharacter");
         _VFXHitWood = transform.Find("VFX").Find("HitWood");
         _VFXHitStone = transform.Find("VFX").Find("HitStone");
@@ -69,6 +75,18 @@ public class Weapon : MonoBehaviour
         _hitFleshPitch = _hitFlesh.pitch;
         _hitWoodPitch = _hitWood.pitch;
         _hitStonePitch = _hitStone.pitch;
+    }
+
+    public void EnableCollider() {
+        _collider.enabled = true;
+        // _myRenderer.material.SetColor("_Color", Color.yellow);
+        if (_showColliders) _colliderSim.gameObject.SetActive(true);
+    }
+
+    public void DisableCollider() {
+        _collider.enabled = false;
+        // _myRenderer.material.SetColor("_Color", Color.white);
+        if (_showColliders) _colliderSim.gameObject.SetActive(false);
     }
 
     public void ResetHits() {
