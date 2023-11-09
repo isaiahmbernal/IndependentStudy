@@ -28,7 +28,6 @@ public class NPCMovementManager : MonoBehaviour
     [SerializeField] private bool _lookAtPoint;
     [SerializeField] private Transform _target;
     [SerializeField] private float _myRadius;
-    [SerializeField] private float _sightRange;
     [SerializeField] private bool _lookAtTarget;
 
     private void Awake() {
@@ -89,9 +88,8 @@ public class NPCMovementManager : MonoBehaviour
 
     /// <summary>
     /// 
-    /// A routine to check if the target is nearby, and whether
-    /// or not to look at the target, walk towards them, or to
-    /// stop moving all together.
+    /// A routine to move towards either our current
+    /// target or our set patrol points
     /// 
     /// Runs at set intervals based on _timeBetweenTargetChecks
     /// until the character is dead
