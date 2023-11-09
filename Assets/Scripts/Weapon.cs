@@ -57,7 +57,7 @@ public class Weapon : MonoBehaviour
         _myState = transform.root.GetComponent<CharacterStateManager>();
         _myAttack = transform.root.GetComponent<CharacterAttackManager>();
         _myRenderer = GetComponent<Renderer>();
-        _collider = GetComponent<BoxCollider>();
+        _collider = GetComponent<Collider>();
         _colliderSim = transform.Find("Collider_Sim");
         _charObj = transform.root.Find("MyObj");
         _anim = _charObj.GetComponent<Animator>();
@@ -121,10 +121,14 @@ public class Weapon : MonoBehaviour
 
         // The same as hitting an interactable object,
         // but in this case an ENEMY
-        else if ((collisionInfo.gameObject.tag == "Enemy"
-            || (collisionInfo.gameObject.tag == "Player" && transform.root.gameObject.name != "Player"))
+        else if (collisionInfo.gameObject.tag == "Character"
+            && collisionInfo.transform.root.gameObject.GetInstanceID() != transform.root.gameObject.GetInstanceID()
             && _myState.GetCurrentAction() == CharacterStateManager.CurrentAction.Attacking
             && _hitsLeft >= 1) {
+        // else if ((collisionInfo.gameObject.tag == "Enemy"
+        //     || (collisionInfo.gameObject.tag == "Player" && transform.root.gameObject.name != "Player"))
+        //     && _myState.GetCurrentAction() == CharacterStateManager.CurrentAction.Attacking
+        //     && _hitsLeft >= 1) {
 
             CharacterStateManager otherState = collisionInfo.gameObject.GetComponent<CharacterStateManager>();
 

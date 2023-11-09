@@ -10,6 +10,7 @@ TagManager:
   - Interactable
   - Wood
   - Stone
+  - Character
   layers:
   - Default
   - TransparentFX

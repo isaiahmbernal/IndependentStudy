@@ -9,7 +9,7 @@ public class CharacterHealthManager : MonoBehaviour
     [SerializeField] private CharacterStateManager _myState;
     [SerializeField] private Ragdoll _myRagdoll;
     [SerializeField] private AudioSource _hurtSound;
-    [SerializeField] private CharacterHealthBar _healthBar;
+    [SerializeField] private CharacterHealthBar _charHealthBar;
 
     [Header("Health Variables")]
     [SerializeField] private float _maxHealth;
@@ -31,7 +31,7 @@ public class CharacterHealthManager : MonoBehaviour
         }
 
         else {
-          _healthBar = transform.Find("Canvas").Find("HealthBar").GetComponent<CharacterHealthBar>();  
+          _charHealthBar = transform.Find("Canvas").Find("HealthBar").GetComponent<CharacterHealthBar>();  
         } 
 
     }
@@ -43,7 +43,7 @@ public class CharacterHealthManager : MonoBehaviour
         // Set all health / damage values
         _currHealth -= damage;
 
-        if (_healthBar) _healthBar.UpdateHealthBar(_currHealth, _maxHealth);
+        if (_charHealthBar) _charHealthBar.UpdateHealthBar(_currHealth, _maxHealth);
 
         _myStunTime = stunTime;
 
@@ -60,9 +60,9 @@ public class CharacterHealthManager : MonoBehaviour
         if (_currHealth <= 0) {
             _myState.SetAbleState(CharacterStateManager.AbleState.Dead);
             Debug.Log(gameObject.name + ": Dead");
-            if (_healthBar) {
+            if (_charHealthBar) {
                 _hurtSound.PlayDelayed(.4f);
-                _healthBar.gameObject.SetActive(false);
+                _charHealthBar.gameObject.SetActive(false);
                 _myRagdoll.HandleRagdoll(stunTime);
             } 
         }

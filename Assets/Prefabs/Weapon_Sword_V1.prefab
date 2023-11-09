@@ -281,9 +281,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
+  - {fileID: 780209978656902760}
   - {fileID: 1557557943597957333}
   - {fileID: 3340704476134741515}
-  - {fileID: 780209978656902760}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -14.247, y: -86.675, z: 89.27}
 --- !u!33 &5168746048115675680
@@ -411,6 +411,7 @@ MonoBehaviour:
   _VFXHitCharacter: {fileID: 0}
   _VFXHitWood: {fileID: 0}
   _VFXHitStone: {fileID: 0}
+  _showColliders: 0
   _myName: Sword
   _damage: 10
   _stunTime: 2

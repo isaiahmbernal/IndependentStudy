@@ -34,7 +34,8 @@ public class TauntRandom : MonoBehaviour
     private void FixedUpdate() {
 
         if (_timeSinceLastMovement > _timeBeforeTaunt
-            && _myState.GetAbleState() != CharacterStateManager.AbleState.Dead) {
+            && _myState.GetAbleState() != CharacterStateManager.AbleState.Dead
+            && _myState.GetCurrentAction() == CharacterStateManager.CurrentAction.Idle) {
                 StartCoroutine("PlayTaunt");
         }
         
