@@ -1866,7 +1866,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1375614524}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.1342014, y: 0.000000006244708, z: -0.0000000034350238, w: 0.9909541}
+  m_LocalRotation: {x: 0.1342014, y: -0.00000003639683, z: 0.00000002002079, w: 0.9909541}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3305,6 +3305,46 @@ PrefabInstance:
     - target: {fileID: 4333385214272150100, guid: d39a14aa5775b4000b1d63a8122198f6, type: 3}
       propertyPath: _maxHitsBeforeRagdoll
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4505209999603901617, guid: d39a14aa5775b4000b1d63a8122198f6, type: 3}
+      propertyPath: m_Pitch
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4505209999603901617, guid: d39a14aa5775b4000b1d63a8122198f6, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7663352072812777595, guid: d39a14aa5775b4000b1d63a8122198f6, type: 3}
+      propertyPath: Loop
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7663352072812777595, guid: d39a14aa5775b4000b1d63a8122198f6, type: 3}
+      propertyPath: m_Pitch
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7663352072812777595, guid: d39a14aa5775b4000b1d63a8122198f6, type: 3}
+      propertyPath: m_Volume
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7663352072812777595, guid: d39a14aa5775b4000b1d63a8122198f6, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8627870562200283243, guid: d39a14aa5775b4000b1d63a8122198f6, type: 3}
+      propertyPath: m_Pitch
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8627870562200283243, guid: d39a14aa5775b4000b1d63a8122198f6, type: 3}
+      propertyPath: m_Volume
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8627870562200283243, guid: d39a14aa5775b4000b1d63a8122198f6, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: b27496a6fbd1e4c73b25ba57c6669107, type: 3}
+    - target: {fileID: 8627870562200283243, guid: d39a14aa5775b4000b1d63a8122198f6, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

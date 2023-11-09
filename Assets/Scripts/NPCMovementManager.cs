@@ -101,6 +101,12 @@ public class NPCMovementManager : MonoBehaviour
         // Do this while we're not dead
         while (_myState.GetAbleState() != CharacterStateManager.AbleState.Dead) {
 
+            if (!_myState.GetCanWalk()) {
+                _myNavAgent.SetDestination(transform.position);
+                yield return new WaitForSeconds(_timeBetweenTargetChecks);
+                continue;
+            }
+
             if (_myState.GetCurrentAction() != CharacterStateManager.CurrentAction.Idle
                 && _myState.GetCurrentAction() != CharacterStateManager.CurrentAction.Walking
                 && _myState.GetCurrentAction() != CharacterStateManager.CurrentAction.Running) {
