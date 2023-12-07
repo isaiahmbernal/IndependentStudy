@@ -14,8 +14,12 @@
 ## ✨ Features
 
 - Character State Management System
-  - Player / NPC Movement
-  - Character Animation System
+  - Character Animations
+  - Character Weapon States
+ 
+- NPC Awareness System
+  - Modular Patrolling Points
+  - Target Tracking / Aggressiveness
 
 - Animation Based Combat w/ Real-time Weapon Collision
  
