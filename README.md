@@ -10,7 +10,7 @@ However, overall I did get plenty of practice in having to make architectural de
 
 ## 🧑‍💻 Process Video
 
-[![Process video](https://i9.ytimg.com/vi/6YSYwRnvl6I/mqdefault.jpg?v=65717759&sqp=CJjNyKsG&rs=AOn4CLAkpvDe6QRgSDL4tqRWsWwvVLt3Jg)](https://youtu.be/6YSYwRnvl6I)
+[![Process video](https://drive.google.com/uc?id=1sNwqjpVzpn5H8xGkT0tbxJlOo5r6-vh6)](https://youtu.be/6YSYwRnvl6I)
 
   - Click image to go to video, or click here https://youtu.be/6YSYwRnvl6I
 
